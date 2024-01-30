@@ -11,12 +11,9 @@ const llm = new OpenAI({
     temperature: 0
   });
   
-
-
 function Home(){
     const [input, setInput] = useState("Tell me a corny joke.");
     const [output, setOutput] = useState("Output")
-
 
     function  handleClick(){
         console.log(input);
@@ -25,9 +22,6 @@ function Home(){
         let res =  llm.invoke(input);
         res.then(setOutput);
         console.log(res)
-        
-
-
     }
 
     return(
