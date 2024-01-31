@@ -1,7 +1,7 @@
 import { OpenAI } from "langchain/llms/openai";
 
 const llm = new OpenAI({
-  openAIApiKey: "Ysk-aUThp3pSbiLLsnAK3Sv0T3BlbkFJ7dx6qY3nN83mBFd2tRNFOUR_OPENAI_KEY",
+  openAIApiKey: "sk-aUThp3pSbiLLsnAK3Sv0T3BlbkFJ7dx6qY3nN83mBFd2tRNFOUR_OPENAI_KEY",
   model: "gpt-3.5-turbo",
   temperature: 0
 });
