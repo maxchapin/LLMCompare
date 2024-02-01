@@ -7,7 +7,6 @@ import { OpenAI } from "langchain/llms/openai";
 import OutputColumn from "../components/OutputColumn";
 
 
-
   
 function Home(){
     const [input, setInput] = useState("Tell me a corny joke.");
