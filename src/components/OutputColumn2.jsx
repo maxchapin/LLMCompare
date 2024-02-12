@@ -1,50 +1,45 @@
-import React, { useState, useEffect } from "react";
-import Select from '@mui/material/Select';
+import React, {useState} from "react";
+import { useEffect } from "react";
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import { Option } from '@mui/base/Option';
 import Typography from '@mui/material/Typography';
 import { OpenAI } from "langchain/llms/openai";
 
-function OutputColumn({ passedApiKey, prompt }) {
-    //console.log(passedApiKey, "and", prompt);
+
+function OutputColumn({ passedApiKey, prompt }){
+    //console.log(props)
     const [apiKey, setApiKey] = useState("default");
-    const [dropdown, setDropdown] = useState('gpt-4-0125-preview');
-    const [output1, setOutput1] = useState("Output will show up here");
+    const [dropdown, setDropdown] = useState('default');
+    const [output1, setOutput1] = useState("Output will show up here")
+    setOutput1("Please wait...");
 
-    useEffect(() => {
-        setApiKey(passedApiKey || 'default');
-        //console.log("Does this work?", apiKey);//no
-    }, [passedApiKey]);
-
-    useEffect(() => {
-        //setOutput1("Please wait...");
-
-        const llm1 = new OpenAI({
-            openAIApiKey: apiKey,
-            model: dropdown,
-            temperature: 0
-        });
-
-        const fetchData = async () => {
-            try {
-                const res1 = await llm1.invoke(prompt);
-                setOutput1(res1);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-                //setOutput1("Error occurred while fetching data.");
-            }
-        };
-
-        fetchData();
-    }, [apiKey, dropdown, prompt]);
+   
+      useEffect(() => {
+        setApiKey('default');
+      }, [passedApiKey, "default"]);
 
     const handleChange = (event) => {
         setDropdown(event.target.value);
-        console.log(dropdown);
+        console.log(event.target.value);
     }
+    
+    //setApiKey(props.apiKey)
 
+    const llm1 = new OpenAI({
+        
+        openAIApiKey: apiKey,
+        model: dropdown,
+        temperature: 0
+      });
+
+      let res1 =  llm1.invoke(prompt);
+      res1.then(setOutput1);
+   
     return (
         <div>
-            <Select className="selector" onChange={handleChange} value={dropdown}>
+
+            <Select className="selector" onChange={handleChange} defaultValue={"gpt-4-0125-preview"} Selection={dropdown}> 
                     <MenuItem value={"gpt-4-0125-preview"}>gpt-4-0125-preview</MenuItem>
                     <MenuItem  value={"gpt-4-turbo-preview"}>gpt-4-turbo-preview</MenuItem>
                     <MenuItem value={"gpt-4-1106-preview"}>gpt-4-0125-preview</MenuItem>
@@ -61,13 +56,16 @@ function OutputColumn({ passedApiKey, prompt }) {
                     <MenuItem value={"gpt-3.5-turbo-0301"}>gpt-3.5-turbo-0301</MenuItem>
                     <MenuItem value={"babbage-002"}>babbage-002</MenuItem>
                     <MenuItem value={"davinci-002"}>davinci-002	</MenuItem>
-            </Select>
+             </Select>
 
-            <Typography className="output" variant="body1" border={1}>
-                {output1}
-            </Typography>
+            <Typography className="output" variant="body1" border={1}>{output1}</Typography>    
         </div>
+
+        
     );
+
+
+
 }
 
 export default OutputColumn;
