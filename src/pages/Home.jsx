@@ -1,76 +1,94 @@
 import React, { useState } from 'react';
 import { OpenAI } from 'langchain/llms/openai';
-import { Button, Select, MenuItem, TextareaAutosize, Typography, TextField } from '@mui/material';
+import { Button, Select, MenuItem, TextareaAutosize, Typography, TextField, Slider } from '@mui/material';
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 
 // Import the OpenAI class from the correct pathn
 function OpenAIComponent() {
   const [inputText, setInputText] = useState('');
-  const [apiKey, setApiKey] = useState('default');
+  const [apiOpenAIKey, setOpenAIApiKey] = useState('default');
+  const [googleApiKey, setGoogleApiKey] = useState('default');
   const [selectedModel1, setSelectedModel1] = useState("gpt-4-0125-preview");
-  const [selectedModel2, setSelectedModel2] = useState("gpt-3.5-turbo");
-  const [selectedModel3, setSelectedModel3] = useState("davinci-002");
+  //const [selectedModel2, setSelectedModel2] = useState("gpt-3.5-turbo");
+  //const [selectedModel3, setSelectedModel3] = useState("davinci-002");
   const [output1, setOutput1] = useState("Output will show up here.");
   const [output2, setOutput2] = useState("Output will show up here.");
-  const [output3, setOutput3] = useState("Output will show up here.");
-  
- 
-  const openai1 = new OpenAI({ openAIApiKey: apiKey, model: selectedModel1, maxTokens:200});
-  const openai2 = new OpenAI({ openAIApiKey: apiKey, model: selectedModel2, maxTokens:200});
-  const openai3 = new OpenAI({ openAIApiKey: apiKey, model: selectedModel3, maxTokens:200});
+  //const [output3, setOutput3] = useState("Output will show up here.");
+  const [temperature, setTemperature] = useState(0);
 
+    //handles prompt changes
   const handleInputChange = (event) => {
     setInputText(event.target.value);
   };
 
+    //handles temperature change
+    const handleTemperatureChange = (event, newValue) => {
+        setTemperature(newValue);
+      };
+    
+
+  //handles openai model change
   const handleModelChange1 = (event) => {
     setSelectedModel1(event.target.value);
   };
 
+  //handles openai api key change
+  const handleOpenAIApiKeyChange = (event) => {
+    setOpenAIApiKey(event.target.value);
+  };
+
+
+  //handles google model change
   const handleModelChange2 = (event) => {
-    setSelectedModel2(event.target.value);
+    setSelectedModel1(event.target.value);
   };
 
-  const handleModelChange3 = (event) => {
-    setSelectedModel3(event.target.value);
+   //handles google api key change
+   const handleGoogleApiKeyChange = (event) => {
+    setGoogleApiKey(event.target.value);
   };
 
-  const handleApiKeyChange = (event) => {
-    setApiKey(event.target.value);
-  };
 
-  const handleGenerate = async () => {
+    const genAI = new GoogleGenerativeAI(googleApiKey);
+
+    async function runGoogle(){
+
+        const generationConfig = {
+            maxOutputTokens: 200,
+            temperature: (temperature/2),
+          };
+        const model = genAI.getGenerativeModel({ model: "gemini-pro", generationConfig});
+
+        const prompt = inputText
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text();
+        setOutput2(text);
+        console.log(text);
+    }   
+ 
+
+  const openai = new OpenAI({ openAIApiKey: apiOpenAIKey, model_name: selectedModel1, maxTokens:200, temperature:temperature});
+
+
+  const handleClick = async () => {
     try {
-      const response1 = await openai1.invoke(
+      const response1 = await openai.invoke(
        inputText,
       );
       //JSON.stringify(response1);
       console.log(response1); // Log the response to inspect its structure
       setOutput1(response1);
-
-    //   const res1 = llm1.invoke(input);
-    //   console.log(res1)
-    //   res1.then(setOutput1);
-  
-      const response2 = await openai2.invoke(
-        inputText,
-        // other options like temperature, max tokens, etc.
-      );
-      console.log(response2); // Log the response to inspect its structure
-      setOutput2(response2);
-  
-      const response3 = await openai3.invoke(
-        inputText,
-        // other options like temperature, max tokens, etc.
-      );
-      console.log(response3); // Log the response to inspect its structure
-      setOutput3(response3);
+      
     } catch (error) {
       console.error('Error making OpenAI API call:', error);
       setOutput1('Error occurred while making the API call.');
-      setOutput2('Error occurred while making the API call.');
-      setOutput3('Error occurred while making the API call.');
+      
     }
+
+    runGoogle();
+
   };
   
 
@@ -88,20 +106,30 @@ function OpenAIComponent() {
           placeholder="Enter prompt here"
         />
       </div>
+        
+        <div className='sliderDiv'>
+            <h3>Temperature</h3>
+            <Slider
+            className='slider'
+            //size='small'
+            value={temperature}
+            onChange={handleTemperatureChange}
+            min={0}
+            max={2}
+            step={0.01}
+            valueLabelDisplay="auto"
+            valueLabelFormat={(value) => `${value.toFixed(2)}`}
+            marks={[
+                { value: 0, label: '0' },
+                { value: 1, label: '1' },
+                { value: 2, label: '2' },
+            ]}
+            />
+        </div>
 
-      <div className='inputKeyDiv'>
-        <TextField
-          className=''
-          label="Enter OpenAI API key here"
-          onChange={handleApiKeyChange}
-          fullWidth
-          variant="outlined"
-          margin="normal"
-        />
-      </div>
 
       <div className='buttonDiv'>
-        <Button className='buttonDiv' variant="outlined" onClick={handleGenerate}>
+        <Button size='large' className='buttonDiv' variant="contained" onClick={handleClick}>
           Generate Output
         </Button>
       </div>
@@ -129,37 +157,43 @@ function OpenAIComponent() {
                         <MenuItem value={"davinci-002"}>davinci-002	</MenuItem>
                     
                 </Select>
+
+                <div className='inputKeyDiv'>
+                    <TextField
+                    className='keyEntry'
+                    label="Enter OpenAI API key here"
+                    onChange={handleOpenAIApiKeyChange}
+                    fullWidth
+                    variant="outlined"
+                    margin="normal"
+                    />
+                </div>
+
                 <Typography className='output' variant="body1" border={1}>
                 {output1}
                 </Typography>
             </div>
 
             <div className='selOut'>
-                <Select  className='selector' defaultValue="gpt-3.5-turbo" value={selectedModel2} onChange={handleModelChange2}>
-                        <MenuItem value={"gpt-4-0125-preview"}>gpt-4-0125-preview</MenuItem>
-                        <MenuItem  value={"gpt-4-turbo-preview"}>gpt-4-turbo-preview</MenuItem>
-                        <MenuItem value={"gpt-4-1106-preview"}>gpt-4-0125-preview</MenuItem>
-                        <MenuItem value={"gpt-4"}>gpt-4</MenuItem>
-                        <MenuItem value={"gpt-4-0613"}>gpt-4-0613</MenuItem>
-                        <MenuItem value={"gpt-4-32k"}>gpt-4-32k</MenuItem>
-                        <MenuItem value={"gpt-4-32k-0613"}>gpt-4-32k-0613</MenuItem>
-                        <MenuItem value={"gpt-3.5-turbo-1106"}>gpt-3.5-turbo-1106</MenuItem>
-                        <MenuItem value={"gpt-3.5-turbo"}>gpt-3.5-turbo</MenuItem>
-                        <MenuItem value={"gpt-3.5-turbo-16k"}>gpt-3.5-turbo-16k</MenuItem>
-                        <MenuItem value={"gpt-3.5-turbo-instruct"}>gpt-3.5-turbo-instruct</MenuItem>
-                        <MenuItem value={"gpt-3.5-turbo-0613"}>gpt-3.5-turbo-0613</MenuItem>
-                        <MenuItem value={"gpt-3.5-turbo-16k-0613"}>gpt-3.5-turbo-16k-0613</MenuItem>
-                        <MenuItem value={"gpt-3.5-turbo-0301"}>gpt-3.5-turbo-0301</MenuItem>
-                        <MenuItem value={"babbage-002"}>babbage-002</MenuItem>
-                        <MenuItem value={"davinci-002"}>davinci-002	</MenuItem>
-                    
+                <Select  className='selector' defaultValue="gemini-pro"  onChange={handleModelChange2}>
+                        <MenuItem value={"gemini-pro"}>Gemini Pro</MenuItem>                    
                 </Select>
+                <div className='inputKeyDiv'>
+                    <TextField
+                    className='keyEntry'
+                    label="Enter Google API key here"
+                    onChange={handleGoogleApiKeyChange}
+                    fullWidth
+                    variant="outlined"
+                    margin="normal"
+                    />
+                </div>
                 <Typography className='output' variant="body1" border={1}>
                 {output2}
                 </Typography>
             </div>
 
-            <div className='selOut'>
+            {/*<div className='selOut'>
                 <Select className='selector' defaultValue="davinci-002" value={selectedModel3} onChange={handleModelChange3}>
                         <MenuItem value={"gpt-4-0125-preview"}>gpt-4-0125-preview</MenuItem>
                         <MenuItem  value={"gpt-4-turbo-preview"}>gpt-4-turbo-preview</MenuItem>
@@ -182,7 +216,7 @@ function OpenAIComponent() {
                 <Typography className='output' variant="body1" border={1}>
                 {output3}
                 </Typography>
-            </div>
+            </div>*/}
       </div>
       
     </div>
