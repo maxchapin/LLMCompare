@@ -109,3 +109,25 @@ p{
   justify-content: center;
   max-width: 100%;
 }
+
+/* Responsive for mobile devices */
+@media (max-width: 769px) {
+
+  .promptInput{
+    width: 75%;
+  }
+
+  .slider{
+    max-width: 75%;
+  }
+
+.outputDiv{
+  gap: 5%;
+}
+
+.selOut{
+  width: 40%;
+}
+
+
+}
