@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { OpenAI } from 'langchain/llms/openai';
 import { Button, Select, MenuItem, TextareaAutosize, Typography, TextField, Slider } from '@mui/material';
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import axios from 'axios';
 
 
 // Import the OpenAI class from the correct pathn
@@ -49,6 +50,20 @@ function OpenAIComponent() {
     setGoogleApiKey(event.target.value);
   };
 
+  const handleProcessInput = async () => {
+    try {
+      const response = await axios.post('http://llmcompare.ai/api/process_text_input/', {
+        input: inputText,
+        key: apiOpenAIKey,
+        model: selectedModel1,
+        temperature: temperature,
+      });
+
+      setOutput1(response.data.output);
+    } catch (error) {
+      console.error('Error processing input:', error);
+    }
+  };
 
     const genAI = new GoogleGenerativeAI(googleApiKey);
 
@@ -73,20 +88,8 @@ function OpenAIComponent() {
 
 
   const handleClick = async () => {
-    try {
-      const response1 = await openai.invoke(
-       inputText,
-      );
-      //JSON.stringify(response1);
-      console.log(response1); // Log the response to inspect its structure
-      setOutput1(response1);
-      
-    } catch (error) {
-      console.error('Error making OpenAI API call:', error);
-      setOutput1('Error occurred while making the API call.');
-      
-    }
 
+    handleProcessInput();
     runGoogle();
 
   };

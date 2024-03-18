@@ -7,6 +7,18 @@ body{
   color: black;
 }
 
+.pageLinks{
+  display: flex;
+  justify-content: center;
+  gap: 5%;
+  margin-bottom: 1%;
+}
+.pageLinkText{
+  text-decoration:underline;
+  color: black;
+  font-size:x-small;
+}
+
 h1{
   display: flex;
   justify-content: center;
@@ -87,6 +99,15 @@ h1{
   background-color: white;
 }
 
+.imgOutput{
+  width: 40%;
+}
+
+.imgOutput img{
+  width: 80%;
+  margin-left: 10%;
+}
+
 .sliderDiv{
   display: flex;
   align-items: center;
@@ -104,10 +125,20 @@ h1{
   gap: 5%
 }
 
-p{
+.copyright{
   display: flex;
   justify-content: center;
-  max-width: 100%;
+}
+
+.PPolicy{
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin-left: 10%;
+}
+
+.PPolicy p h1{
+  text-align: left;
 }
 
 /* Responsive for mobile devices */
