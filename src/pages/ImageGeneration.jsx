@@ -45,7 +45,7 @@ function ImageGeneration() {
 
     const handleProcessInput = async () => {
       try {
-        const response = await axios.post(
+        const data = await axios.post(
           'https://llmcompare.ai/api/process_image_input/',
           {
             input: inputText,
