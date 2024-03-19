@@ -29,19 +29,43 @@ function ImageGeneration() {
     handleProcessInput();
   };
 
-  const handleProcessInput = async () => {
-    try {
-      const response = await axios.post('https://llmcompare.ai/api/process_image_input/', {
-        input: inputText,
-        key: apiOpenAIKey,
-        //model: selectedModel1,
-        //temperature: temperature,
-      });
+  // const handleProcessInput = async () => {
+  //   try {
+  //     const response = await axios.post('https://llmcompare.ai/api/process_image_input/', {
+  //       input: inputText,
+  //       key: apiOpenAIKey,
+  //       //model: selectedModel1,
+  //       //temperature: temperature,
+  //     });
 
-      setImageURL(response.data.output);
-    } catch (error) {
-      console.error('Error processing input:', error);
-    }
+  //     setImageURL(response.data.output);
+  //   } catch (error) {
+  //     console.error('Error processing input:', error);
+  //   }
+
+    const handleProcessInput = async () => {
+      try {
+        const response = await axios.post(
+          'https://llmcompare.ai/api/process_image_input/',
+          {
+            input: inputText,
+            key: apiOpenAIKey, // Include the 'key' field if necessary
+            // Remove any other non-simple request fields
+          },
+          {
+            // Add the appropriate Content-Type header
+            headers: {
+              'Content-Type': 'application/json', // Ensure Content-Type is one of the allowed types
+              // Avoid setting any custom headers other than the ones allowed by CORS
+            },
+          }
+        );
+    
+        setImageURL(data.output && data.output.length > 0 ? data.output[0] : '');
+      } catch (error) {
+        console.error('Error processing input:', error);
+      }
+    };
 
     
 
@@ -58,7 +82,7 @@ function ImageGeneration() {
     //   console.error('Error processing input:', error);
     // }
 
-  };
+ // };
 
   return (
     <div>
