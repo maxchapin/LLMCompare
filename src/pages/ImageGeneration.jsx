@@ -46,7 +46,7 @@ function ImageGeneration() {
     const handleProcessInput = async () => {
       try {
         const data = await axios.post(
-          'https://llmcompare.ai/api/process_image_input',
+          'https://llmcompare.ai/api/process_image_input/',
           {
             input: inputText,
             key: apiOpenAIKey, // Include the 'key' field if necessary
@@ -56,6 +56,7 @@ function ImageGeneration() {
             // Add the appropriate Content-Type header
             headers: {
               'Content-Type': 'application/json', // Ensure Content-Type is one of the allowed types
+               'Access-Control-Allow-Origin': '*'
               // Avoid setting any custom headers other than the ones allowed by CORS
             },
           }
