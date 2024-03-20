@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { OpenAI } from 'langchain/llms/openai';
+//import { OpenAI } from 'langchain/llms/openai';
 import { Button, Select, MenuItem, TextareaAutosize, Typography, TextField, Slider } from '@mui/material';
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import axios from 'axios';
-
+import OpenAI from "openai";
 
 // Import the OpenAI class from the correct pathn
 function OpenAIComponent() {
@@ -50,20 +50,60 @@ function OpenAIComponent() {
     setGoogleApiKey(event.target.value);
   };
 
-  const handleProcessInput = async () => {
-    try {
-      const response = await axios.post('https://llmcompare.ai/api/process_text_input', {
-        input: inputText,
-        key: apiOpenAIKey,
-        model: selectedModel1,
-        temperature: temperature,
-      });
+  // const handleProcessInput = async () => {
+  //   try {
+  //     const response = await axios.post('https://llmcompare.ai/api/process_text_input', {
+  //       input: inputText,
+  //       key: apiOpenAIKey,
+  //       model: selectedModel1,
+  //       temperature: temperature,
+  //     });
 
-      setOutput1(response.data.output);
+  //     setOutput1(response.data.output);
+  //   } catch (error) {
+  //     console.error('Error processing input:', error);
+  //   }
+  // };
+
+  async function runOpenAITextToText() {
+    try {
+      const openai = new OpenAI({
+        apiKey: apiOpenAIKey,
+        model: selectedModel1,
+        maxTokens: 200,
+        temperature: temperature,
+        dangerouslyAllowBrowser: true
+      });
+  
+      const completion = await openai.chat.completions.create({
+        model: selectedModel1, // Corrected the model to use selectedModel1
+        messages: [
+          {
+            role: "system",
+            content: "You are a helpful assistant."
+          },
+          {
+            role: "user",
+            content: inputText
+          }
+        ],
+        temperature: temperature
+      });
+  
+      // Check if choices array exists and has items
+      if (completion.choices && completion.choices.length > 0) {
+        console.log(completion.choices[0]);
+        setOutput1(completion.choices[0].message.content); // Assuming completion.choices[0] contains the response
+      } else {
+        console.error("No choices returned from OpenAI");
+      }
     } catch (error) {
-      console.error('Error processing input:', error);
+      console.error('Error running OpenAI text-to-text:', error);
     }
-  };
+  }
+  
+
+    
 
     const genAI = new GoogleGenerativeAI(googleApiKey);
 
@@ -84,12 +124,12 @@ function OpenAIComponent() {
     }   
  
 
-  const openai = new OpenAI({ openAIApiKey: apiOpenAIKey, model_name: selectedModel1, maxTokens:200, temperature:temperature});
+  
 
 
   const handleClick = async () => {
 
-    handleProcessInput();
+    runOpenAITextToText();
     runGoogle();
 
   };

@@ -66,14 +66,6 @@ h1{
   background-color: white;
 }
 
-.outputDiv{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2%;
-  margin-left: 0;
-}
-
 .selOut{
   width: 25%;
   display: flex;
@@ -99,13 +91,27 @@ h1{
   background-color: white;
 }
 
-.imgOutput{
+.outputDiv{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2%;
+}
+
+.individualImgOutput{
+  display: flex;
+  flex-direction: column;
   width: 40%;
+  
+}
+
+.imgOutput{
+  width: 80%;
+  margin-left: 10%;
 }
 
 .imgOutput img{
-  width: 80%;
-  margin-left: 10%;
+  width: 100%;
 }
 
 .sliderDiv{
