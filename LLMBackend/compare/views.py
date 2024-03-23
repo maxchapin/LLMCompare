@@ -51,7 +51,7 @@ def process_text_input(request):
 def process_claude(request):
     #print(request)
     #print("Running process_claude")
-    if request.method == 'GET':
+    if request.method == 'POST':
         #print("if POST")
         data = json.loads(request.body.decode('utf-8'))
         api_key = data.get('api_key', '')
