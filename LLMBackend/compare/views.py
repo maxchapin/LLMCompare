@@ -48,7 +48,6 @@ def process_text_input(request):
     return JsonResponse({'error': 'Invalid request method'})
 
 @csrf_exempt
-@require_POST
 def process_claude(request):
     #print(request)
     #print("Running process_claude")
