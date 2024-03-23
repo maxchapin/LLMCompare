@@ -11,7 +11,8 @@ import anthropic
 
 @csrf_exempt
 def process_text_input(request):
-    if request.method == 'POST':
+    
+    if request.method == 'GET':
         data = json.loads(request.body.decode('utf-8'))
         user_input = data.get('input', '')
         openAIKey = data.get('key', '')
