@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 from openai import OpenAI
 import json
 import base64
@@ -46,6 +47,7 @@ def process_text_input(request):
     return JsonResponse({'error': 'Invalid request method'})
 
 @csrf_exempt
+@require_POST
 def process_claude(request):
     #print(request)
     #print("Running process_claude")
