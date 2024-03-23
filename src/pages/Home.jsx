@@ -153,7 +153,7 @@ function OpenAIComponent() {
   //handles Claude API call
   async function runClaude(inputText, claudeApiKey) {
     try {
-      const response = await axios.post('http://llmcompare.ai/api/process_claude/', {
+      const response = await axios.post('https://llmcompare.ai/api/process_claude/', {
         api_key: claudeApiKey,
         model: 'claude-3-opus-20240229',
         system: inputText,
