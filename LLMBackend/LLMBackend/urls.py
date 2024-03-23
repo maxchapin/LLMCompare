@@ -16,11 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from compare.views import process_text_input, process_image_input, process_stablefusion
+from compare.views import process_text_input, process_image_input, process_stablefusion, process_claude
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/process_text_input/', process_text_input, name='process_text_input'),
     path('api/process_image_input/', process_image_input, name='process_image_input'),
     path('api/process_stablefusion/', process_stablefusion, name='process_stablefusion'),
+    path('api/process_claude/', process_claude, name='process_claude'),
 ]

@@ -6,7 +6,7 @@ import json
 import base64
 import os
 import requests
-
+import anthropic
 
 @csrf_exempt
 def process_text_input(request):
@@ -45,6 +45,51 @@ def process_text_input(request):
 
     return JsonResponse({'error': 'Invalid request method'})
 
+@csrf_exempt
+def process_claude(request):
+    #print(request)
+    #print("Running process_claude")
+    if request.method == 'POST':
+        #print("if POST")
+        data = json.loads(request.body.decode('utf-8'))
+        api_key = data.get('api_key', '')
+        model = data.get('model', '')  # Default model
+        system = data.get('system', '')
+
+        #print(api_key)
+        #print(system)
+
+        # Validate input data
+        if not all([api_key, system]):
+            return JsonResponse({'error': 'Missing required parameters'}, status=400)
+
+        # Create an instance of the Anthropc client
+        try:
+            client = anthropic.Anthropic(api_key=api_key)
+        except Exception as e:
+            #print("didnt work")
+            return JsonResponse({'error': str(e)}, status=500)
+
+        # Make the API call to generate a response message
+        try:
+            #print("try")
+
+            message = client.messages.create(
+                model="claude-3-opus-20240229",
+                max_tokens=1024,
+                messages=[
+                    {"role": "user", "content": system}
+                ]
+            )
+
+            response = message.content[0].text
+            print(response)
+
+            return JsonResponse({'output': response})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 @csrf_exempt
 def process_image_input(request):

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 function Header() {
 
     return(
-        <div>
+        <div className="header">
             <div>
                 <Link to='./' className='logo'>
                     <h1>LLMCompare.ai</h1>
