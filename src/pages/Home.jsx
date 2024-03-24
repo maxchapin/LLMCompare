@@ -164,7 +164,7 @@ function OpenAIComponent() {
       setOutput3(response.data.output);
       //setOutput3(response.data.message_content);
     } catch (error) {
-      console.error('Error:', error.response.data);
+      console.error('Error:', error);
     }
   }
 
