@@ -158,13 +158,13 @@ function OpenAIComponent() {
         model: 'claude-3-opus-20240229',
         system: inputText,
       });
-      //console.log("test");
+      console.log("test");
 
-      //console.log(response.data.output);
+      console.log(response.data.output);
       setOutput3(response.data.output);
       //setOutput3(response.data.message_content);
     } catch (error) {
-      console.error('Error:', error.response.data);
+      console.error('Error:', error);
     }
   }
 
