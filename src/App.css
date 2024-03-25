@@ -157,6 +157,11 @@ h1{
 /* Responsive for mobile devices */
 @media (max-width: 769px) {
 
+  .outputDiv{
+    display: flex;
+    flex-direction: column;
+  }
+
   .promptInput{
     width: 75%;
   }
@@ -170,7 +175,13 @@ h1{
 }
 
 .selOut{
-  width: 40%;
+  width: 80%;
+  margin-bottom: 5%;
+}
+
+.individualImgOutput{
+  width: 80%;
+  height: 50vh;
 }
 
 
