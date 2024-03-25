@@ -25,7 +25,7 @@ function OpenAIComponent() {
   const [selectedModel3, setSelectedModel3] = useState("davinci-002");
   const [output1, setOutput1] = useState("Output will show up here.");
   const [output2, setOutput2] = useState("Output will show up here.");
-  const [output3, setOutput3] = useState("Output will show up here.");
+  const [output3, setOutput3] = useState("Coming Soon.");
   const [temperature, setTemperature] = useState(0);
 
   //handles prompt changes
@@ -290,7 +290,7 @@ function OpenAIComponent() {
             defaultValue="Claude-2.1"
             onChange={handleModelChange2}
           >
-            <MenuItem value={"Claude-2.1"}>Claude-2.1</MenuItem>
+            <MenuItem value={"claude-3-opus-20240229"}>Claude 3 Opus</MenuItem>
           </Select>
           <div className="inputKeyDiv">
             <TextField
