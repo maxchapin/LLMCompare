@@ -13,6 +13,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import axios from "axios";
 import OpenAI from "openai";
 import Anthropic from '@anthropic-ai/sdk';
+import ClickableLink from "../components/ClickableLink";
 
 // Import the OpenAI class from the correct pathn
 function OpenAIComponent() {
@@ -245,6 +246,8 @@ function OpenAIComponent() {
             <MenuItem value={"davinci-002"}>davinci-002 </MenuItem>
           </Select>
 
+          <ClickableLink link='https://platform.openai.com/api-keys' text='Get OpenAI API Key Here'></ClickableLink>
+
           <div className="inputKeyDiv">
             <TextField
               className="keyEntry"
@@ -269,6 +272,9 @@ function OpenAIComponent() {
           >
             <MenuItem value={"gemini-pro"}>Gemini Pro</MenuItem>
           </Select>
+
+          <ClickableLink link='https://aistudio.google.com/app/apikey' text='Get Google API Key Here'></ClickableLink>
+
           <div className="inputKeyDiv">
             <TextField
               className="keyEntry"

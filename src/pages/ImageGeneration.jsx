@@ -3,6 +3,7 @@ import OpenAI from "openai";
 import { Button, TextareaAutosize, TextField } from "@mui/material";
 import StableDiffusion from "../components/StableDiffusion";
 import OpenAITextToImage from "../components/OpenAITextToImage";
+import ClickableLink from "../components/ClickableLink";
 
 function ImageGeneration() {
   const [inputText, setInputText] = useState("");
@@ -64,6 +65,8 @@ function ImageGeneration() {
             />
           </div>
 
+          <ClickableLink link='https://platform.openai.com/api-keys' text='Get OpenAI API Key Here'></ClickableLink>
+
           <div className="imgOutput">
             {buttonClicked && (
               <OpenAITextToImage
@@ -85,6 +88,9 @@ function ImageGeneration() {
               margin="normal"
             />
           </div>
+
+          <ClickableLink link='https://platform.stability.ai/account/keys' text='Get Stability API Key Here'></ClickableLink>
+
           <div className="imgOutput">
             {buttonClicked && (
               <StableDiffusion
