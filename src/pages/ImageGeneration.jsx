@@ -62,6 +62,7 @@ function ImageGeneration() {
               fullWidth
               variant="outlined"
               margin="normal"
+              type="password"
             />
           </div>
 
@@ -86,6 +87,7 @@ function ImageGeneration() {
               fullWidth
               variant="outlined"
               margin="normal"
+              type="password"
             />
           </div>
 

@@ -256,6 +256,7 @@ function OpenAIComponent() {
               fullWidth
               variant="outlined"
               margin="normal"
+              type="password"
             />
           </div>
 
@@ -283,6 +284,7 @@ function OpenAIComponent() {
               fullWidth
               variant="outlined"
               margin="normal"
+              type="password"
             />
           </div>
           <Typography className="output" variant="body1" border={1}>
@@ -306,6 +308,7 @@ function OpenAIComponent() {
               fullWidth
               variant="outlined"
               margin="normal"
+              type="password"
             />
           </div>
           <Typography className="output" variant="body1" border={1}>
