@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-g%!6xz^rz)$b9u=4h*h18z4mj9+44_-six=s47q2=a3xisem$3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.verce.app']
 
 
 # Application definition
