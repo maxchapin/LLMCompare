@@ -72,7 +72,7 @@ function Header() {
           </Button>
           <Button
             color="inherit"
-            href="https://github.com/yourusername/llmcompare"
+            href="https://github.com/maxchapin/LLMCompare"
             target="_blank"
             rel="noopener noreferrer"
             startIcon={<GitHubIcon />}

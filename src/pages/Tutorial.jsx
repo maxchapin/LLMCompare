@@ -81,8 +81,7 @@ const Tutorial = () => {
     },
     {
       question: "How do I report issues?",
-      answer: "Visit our GitHub repository to report issues or contribute improvements. We're open source!"
-    }
+      answer: "Visit our GitHub repository at https://github.com/maxchapin/LLMCompare to report issues or contribute improvements. We're open source!"    }
   ];
 
   return (

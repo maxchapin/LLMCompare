@@ -35,7 +35,7 @@ function Footer() {
           </Link>
 
           <Link 
-            href="https://github.com/yourusername/llmcompare"
+            href="https://github.com/maxchapin/LLMCompare"
             target="_blank"
             rel="noopener noreferrer"
             sx={{ 
