@@ -1,82 +1,94 @@
-import React, { useState } from 'react';
-import { 
-  AppBar, 
-  Toolbar, 
-  Typography, 
-  Button, 
-  Box,
-  IconButton,
-  Menu,
-  MenuItem,
-  useMediaQuery,
-  useTheme 
-} from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
+import GitHubIcon from '@mui/icons-material/GitHub';
 
-const Header = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
+function Header() {
   return (
-    <AppBar position="static" sx={{ marginBottom: 3 }}>
-      <Toolbar sx={{ justifyContent: 'space-between' }}>
-        <Typography variant="h6" component="div">
+    <AppBar 
+      position="static" 
+      sx={{ 
+        background: 'linear-gradient(180deg, #1A1A1A 0%, #2D2D2D 100%)',
+        boxShadow: '0 2px 4px rgba(0,0,0,0.3)',
+        marginBottom: '20px'
+      }}
+    >
+      <Toolbar sx={{ justifyContent: 'center' }}>
+        <Typography 
+          variant="h5" 
+          component={RouterLink} 
+          to="/"
+          sx={{ 
+            textDecoration: 'none',
+            color: 'rgba(255, 255, 255, 0.87)',
+            fontWeight: 'bold',
+            marginRight: '40px',
+            '&:hover': {
+              color: '#BB86FC'
+            }
+          }}
+        >
           LLM Compare
         </Typography>
-        
-        {isMobile ? (
-          <>
-            <IconButton
-              color="inherit"
-              aria-label="menu"
-              onClick={handleMenu}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-            >
-              <MenuItem 
-                component={Link} 
-                to="/" 
-                onClick={handleClose}
-              >
-                Text Generation
-              </MenuItem>
-              <MenuItem 
-                component={Link} 
-                to="/image" 
-                onClick={handleClose}
-              >
-                Image Generation
-              </MenuItem>
-            </Menu>
-          </>
-        ) : (
-          <Box sx={{ display: 'flex', gap: 2 }}>
-            <Button color="inherit" component={Link} to="/">
-              Text Generation
-            </Button>
-            <Button color="inherit" component={Link} to="/image">
-              Image Generation
-            </Button>
-          </Box>
-        )}
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <Button 
+            color="inherit" 
+            component={RouterLink} 
+            to="/"
+            sx={{ 
+              color: '#fff',
+              '&:hover': {
+                backgroundColor: 'rgba(255,255,255,0.1)',
+              }
+            }}
+          >
+            Text
+          </Button>
+          <Button 
+            color="inherit" 
+            component={RouterLink} 
+            to="/image"
+            sx={{ 
+              color: '#fff',
+              '&:hover': {
+                backgroundColor: 'rgba(255,255,255,0.1)',
+              }
+            }}
+          >
+            Image
+          </Button>
+          <Button 
+            color="inherit" 
+            component={RouterLink} 
+            to="/tutorial"
+            sx={{ 
+              color: '#fff',
+              '&:hover': {
+                backgroundColor: 'rgba(255,255,255,0.1)',
+              }
+            }}
+          >
+            Tutorial
+          </Button>
+          <Button
+            color="inherit"
+            href="https://github.com/yourusername/llmcompare"
+            target="_blank"
+            rel="noopener noreferrer"
+            startIcon={<GitHubIcon />}
+            sx={{ 
+              color: '#fff',
+              '&:hover': {
+                backgroundColor: 'rgba(255,255,255,0.1)',
+              }
+            }}
+          >
+            GitHub
+          </Button>
+        </Box>
       </Toolbar>
     </AppBar>
   );
-};
+}
 
 export default Header;

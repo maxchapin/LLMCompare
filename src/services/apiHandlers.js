@@ -1,6 +1,7 @@
 import OpenAI from 'openai';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import axios from 'axios';
+import { HfInference } from '@huggingface/inference';
 
 export const handleOpenAICall = async (model, apiKey, prompt) => {
   try {
@@ -80,45 +81,32 @@ export const handleMistralCall = async (model, apiKey, prompt) => {
   }
 };
 
-export const handleFreeModelCall = async (model, prompt) => {
-  try {
-    const response = await axios.post(
-      `https://api-inference.huggingface.co/models/${model}`,
-      {
-        inputs: prompt,
-        parameters: {
-          max_length: 500,
-          temperature: 0.7,
-          top_p: 0.95,
-          do_sample: true,
-          return_full_text: false
-        }
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer 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'
-        }
-      }
-    );
+export const handleFreeModelCall = async (model, apiKey, prompt) => {
+  if (!apiKey) {
+    throw new Error('Hugging Face API key is required');
+  }
 
-    // Handle different response formats
-    if (Array.isArray(response.data) && response.data[0]?.generated_text) {
-      return response.data[0].generated_text;
-    } else if (typeof response.data === 'string') {
-      return response.data;
-    } else if (response.data?.output) {
-      return response.data.output;
+  try {
+    const inference = new HfInference(apiKey);
+    
+    const response = await inference.textGeneration({
+      model: model,
+      inputs: prompt,
+    });
+
+    if (response.generated_text) {
+      return response.generated_text;
     } else {
       throw new Error('Unexpected response format from model');
     }
 
   } catch (error) {
-    if (error.response?.status === 503) {
-      throw new Error('Model is warming up, please try again in a few seconds');
-    } else if (error.response?.status === 400) {
-      throw new Error('Invalid request format for this model. Please try a different prompt.');
+    if (error.message.includes('requires a Pro subscription')) {
+      throw new Error(`This model requires a Hugging Face Pro subscription. Visit https://huggingface.co/pricing to learn more.`);
     }
-    throw new Error(`Free Model Error (${model}): ${error.message}`);
+    if (error.message.includes('token seems invalid')) {
+      throw new Error('Please check your Hugging Face API token');
+    }
+    throw new Error(`Hugging Face API Error: ${error.message}`);
   }
 }; 

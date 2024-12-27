@@ -60,7 +60,7 @@ function OpenAIComponent() {
     try {
       let response;
       if (isFreeModel(model)) {
-        response = await handleFreeModelCall(model, inputText);
+        response = await handleFreeModelCall(model, apiKey, inputText);
       } else if (model.includes('gpt')) {
         response = await handleOpenAICall(model, apiKey, inputText);
       } else if (model.includes('gemini')) {

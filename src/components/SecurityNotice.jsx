@@ -8,7 +8,7 @@ const SecurityNotice = () => {
       <ul>
         <li>Your API keys are never stored on our servers</li>
         <li>All API calls are made directly from your browser to the AI providers</li>
-        <li>This site is open source - <Link href="YOUR_GITHUB_REPO" target="_blank">view the code</Link></li>
+        <li>This site is open source - <Link href="https://github.com/yourusername/llmcompare" target="_blank" rel="noopener noreferrer">view the code on GitHub</Link></li>
       </ul>
     </Alert>
   );
